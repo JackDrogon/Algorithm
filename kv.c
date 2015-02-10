@@ -5,6 +5,7 @@
 
 struct kv {
 	int capacity;
+	// TODO 使用弹性块
 	struct element **htable;
 	int (*hash)(const char *);
 	int (*set)(struct kv *, const char *, const char *);
@@ -34,6 +35,7 @@ int set(struct kv *table, const char *key, const char *value)
 	int key_len = strlen(key);
 	char *key_ = (char*) malloc(key_len * sizeof(char));
 	strncpy(key_, key, key_len);
+	// TODO Mem error check
 	struct element *value_ = (struct element*) malloc(sizeof(struct element));
 	value_->key = key_;
 	value_->value = value;
@@ -60,9 +62,7 @@ char* get(struct kv *table, const char *key)
 	int place = hash(key) % table->capacity;
 	// TODO Add string compare optimization  first compare with len(use redis sds)
 	struct element *value = table->htable[place];
-	//printf("Get Key: %s, Value: %s\n", key, value->value);
 	while (strcmp(key, value->key)) {
-		//printf("%d\n", strcmp(key, value->key));
 		value = value->next;
 	}
 
@@ -92,14 +92,14 @@ int main()
 	init(&table, 256);
 	char key[10];
 	char *value;
-	for (i = 0; i < 100; ++i) {
+	for (i = 0; i < 300; ++i) {
 		sprintf(key, "%d", i);
 		value = (char *)malloc(10*sizeof(char));
 		sprintf(value, "%d", i);
 		set(&table, key, value);
 	}
 
-	for (i = 0; i < 100; ++i) {
+	for (i = 0; i < 300; ++i) {
 		sprintf(key, "%d", i);
 		printf("%s => %s\n", key, get(&table, key));
 	}
