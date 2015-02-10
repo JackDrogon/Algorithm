@@ -21,3 +21,4 @@ lcs : lcs.c
 
 clean :
 	-$(RM) lcs
+	-$(RM) -rf *.dSYM

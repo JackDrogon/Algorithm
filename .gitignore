@@ -1,2 +1,4 @@
 *.dSYM
 *.o
+a.out
+lcs
