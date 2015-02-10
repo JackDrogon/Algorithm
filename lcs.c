@@ -22,7 +22,8 @@ static inline size_t lcs(const char * str1, const char * str2)
 	const size_t len2 = strlen(str2);
 	
 	for (size_t i = 0; i <= len1; ++i)	lcs[i][0] = 0;
-	for (size_t i = 0; i <= len2; ++i)	lcs[0][i] = 0;
+	//for (size_t i = 0; i <= len2; ++i)	lcs[0][i] = 0;
+	_clear(lcs[0], len2+1);
 	for (size_t i = 1; i <= len1; ++i) {
 		for (size_t j = 1; j <= len2; ++j) {
 			if (str1[i] == str2[j]) lcs[i][j] = lcs[i-1][j-1] + 1;
